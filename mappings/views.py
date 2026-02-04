@@ -13,12 +13,6 @@ from patients.models import Patient
 class PatientDoctorMappingViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Patient-Doctor Mapping CRUD operations
-    
-    Features:
-    - Create mapping (assign doctor to patient)
-    - List all mappings
-    - Get mappings by patient ID
-    - Delete mapping (remove doctor from patient)
     """
     
     permission_classes = [IsAuthenticated]
@@ -51,13 +45,7 @@ class PatientDoctorMappingViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         """
         Create new patient-doctor mapping
-        
-        Input:
-        {
-            "patient_id": 1,
-            "doctor_id": 2,
-            "notes": "Regular checkup"
-        }
+
         """
         serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)

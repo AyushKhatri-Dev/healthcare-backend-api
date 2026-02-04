@@ -7,12 +7,7 @@ User = get_user_model()
 class UserRegistrationSerializer(serializers.ModelSerializer):
     """
     Serializer for user registration
-    
-    Fields:
-    - name: Full name (required)
-    - email: Email address (required, unique)
-    - password: Password (required, write-only)
-    - password2: Confirm password (required, write-only)
+
     """
     password2 = serializers.CharField(
         write_only = True,
@@ -74,7 +69,6 @@ class UserLoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     """
     Basic user serializer for displaying user info
-    Use case: Profile display, user details, etc.
     """
     class Meta:
         model = User

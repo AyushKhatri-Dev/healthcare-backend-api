@@ -6,8 +6,6 @@ from doctors.serializers import DoctorSerializer
 class PatientDoctorMappingSerializer(serializers.ModelSerializer):
     """
     Serializer for Patient-Doctor Mapping
-    
-    Shows complete details with nested patient and doctor info
     """
     # Nested serializers for complete information
     patient = PatientSerializer(read_only=True)
@@ -28,8 +26,6 @@ class PatientDoctorMappingSerializer(serializers.ModelSerializer):
 class PatientDoctorMappingCreateSerializer(serializers.ModelSerializer):
     """
     Serializer for creating mappings
-    
-    Takes only IDs, not full objects
     """
 
     patient_id = serializers.IntegerField(write_only=True)
@@ -64,8 +60,6 @@ class PatientDoctorMappingCreateSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         """
         Object-level validation
-        
-        Check if mapping already exists
         """
         from patients.models import Patient
         from doctors.models import Doctor
@@ -120,8 +114,6 @@ class PatientDoctorMappingCreateSerializer(serializers.ModelSerializer):
 class PatientDoctorMappingListSerializer(serializers.ModelSerializer):
     """
     Simplified serializer for listing mappings
-    
-    Shows basic info without nested details
     """
     
     patient_name = serializers.CharField(source='patient.name', read_only=True)

@@ -9,9 +9,6 @@ from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSe
 class RegisterView(APIView):
     """
     API endpoint for user registration
-    
-    URL: POST /api/auth/register/
-    Permission: Anyone can register (no authentication required)
     """
     
     permission_classes = [AllowAny]  # No authentication required
@@ -19,20 +16,6 @@ class RegisterView(APIView):
     def post(self, request):
         """
         Handle POST request for registration
-        
-        Input (request.data):
-        {
-            "name": "Ayush Khatri",
-            "email": "ayush@example.com",
-            "password": "password123",
-            "password2": "password123"
-        }
-        
-        Output:
-        {
-            "user": {...},
-            "message": "User registered successfully"
-        }
         """
         
         # Create serializer instance with request data
@@ -40,7 +23,6 @@ class RegisterView(APIView):
         
         # Validate data
         if serializer.is_valid():
-            # Save user to database
             user = serializer.save()
             
             # Return success response
@@ -56,9 +38,6 @@ class RegisterView(APIView):
 class LoginView(APIView):
     """
     API endpoint for user login with JWT token generation
-    
-    URL: POST /api/auth/login/
-    Permission: Anyone can login (no authentication required)
     """
     
     permission_classes = [AllowAny]
@@ -66,20 +45,6 @@ class LoginView(APIView):
     def post(self, request):
         """
         Handle POST request for login
-        
-        Input (request.data):
-        {
-            "email": "ayush@example.com",
-            "password": "password123"
-        }
-        
-        Output:
-        {
-            "user": {...},
-            "access": "eyJhbGci...",  // Access token (1 hour validity)
-            "refresh": "eyJhbGci...", // Refresh token (1 day validity)
-            "message": "Login successful"
-        }
         """
         
         # Get email and password from request
@@ -103,12 +68,11 @@ class LoginView(APIView):
             
             return Response({
                 'user': UserSerializer(user).data,
-                'access': str(refresh.access_token),  # Access token
-                'refresh': str(refresh),              # Refresh token
+                'access': str(refresh.access_token), 
+                'refresh': str(refresh),           
                 'message': 'Login successful'
             }, status=status.HTTP_200_OK)
         else:
-            # Invalid credentials
             return Response({
                 'error': 'Invalid email or password'
             }, status=status.HTTP_401_UNAUTHORIZED)

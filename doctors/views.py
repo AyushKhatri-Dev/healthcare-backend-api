@@ -8,17 +8,6 @@ from .serializers import DoctorSerializer
 class DoctorViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Doctor CRUD operations
-    
-    Automatically provides:
-    - POST   /api/doctors/         → create()
-    - GET    /api/doctors/         → list()
-    - GET    /api/doctors/{id}/    → retrieve()
-    - PUT    /api/doctors/{id}/    → update()
-    - PATCH  /api/doctors/{id}/    → partial_update()
-    - DELETE /api/doctors/{id}/    → destroy()
-    
-    Note: Doctors are NOT user-specific (no filtering by created_by)
-    Any authenticated user can view/manage all doctors
     """
     
     queryset = Doctor.objects.all()
@@ -68,10 +57,6 @@ class DoctorViewSet(viewsets.ModelViewSet):
     def available(self, request):
         """
         Custom endpoint to get only available doctors
-        
-        URL: GET /api/doctors/available/
-        
-        Returns: List of doctors where available=True
         """
         available_doctors = self.queryset.filter(available=True)
         serializer = self.get_serializer(available_doctors, many=True)
@@ -85,10 +70,6 @@ class DoctorViewSet(viewsets.ModelViewSet):
     def by_specialization(self, request):
         """
         Custom endpoint to filter doctors by specialization
-        
-        URL: GET /api/doctors/by_specialization/?specialization=CARDIOLOGY
-        
-        Query Parameter: specialization (CARDIOLOGY, NEUROLOGY, etc.)
         """
         specialization = request.query_params.get('specialization', None)
         

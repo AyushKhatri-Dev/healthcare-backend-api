@@ -22,17 +22,12 @@ class PatientViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """
         Return patients created by current user only
-        
-        Why? Ek user sirf apne patients dekh sake, dusre ke nahi!
         """
         return Patient.objects.filter(created_by=self.request.user)
     
     def get_serializer_class(self):
         """
         Return appropriate serializer based on action
-        
-        - create/update → PatientCreateUpdateSerializer (no created_by field)
-        - list/retrieve → PatientSerializer (with created_by details)
         """
         if self.action in ['create', 'update', 'partial_update']:
             return PatientCreateUpdateSerializer
@@ -41,8 +36,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """
         Custom logic during creation
-        
-        Automatically set created_by to current user
+
         """
         serializer.save(created_by=self.request.user)
     
